@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<h2>pratimaStudentfrom</h2>
+
+<form>
+    Name<input type="text" name="name" class="form-control" /><br />
+    MobNo<input type="text" name="num" class="form-control" maxlength="10"  onkeypress="if(this.value.length == 10) return false;"/><br />
+    Email<input type="email" name="email" class="form-control" /><br />
+
+    Password<input type="password" name="pass" class="form-control" /><br />
+    Select State  <select name="selectstate" class="form-control" onchange="selectCities(this)">
+
+        <option>--chooseState----</option>
+        @if (Model != null)
+        {
+            foreach (System.Data.DataRow row in Model.Rows)
+            {
+                <option value="@row["sid"]">@row["sname"]</option>
+            }
+        }
+
+
+    </select><br/>
+
+ Select City  <select name="cities" class="form-control" id="tbl_city">
+        <option>--choosecity----</option>
+      
+    </select><br />
+    Address<input type="text" name="address" class="form-control" /><br />
+    <input type="button" value="Add Now" class="form-control" /><br />
+</form>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script>
+
+    function selectCities(x)
+    {
+
+      var  sid = x.value;
+       // alert(sid);
+        $.ajax({
+            url:'/home/selectcity',
+            type:'GET',
+            data:{ "sid": sid },
+            success: function (res1)
+            {
+                var res = JSON.parse(res1);
+              
+                $("#tbl_city").empty();
+                if (res.length >0) {
+                 
+                    for(var city of res)
+                    {
+                        $("#tbl_city").append(`
+                       
+                        <option value="${city["id"]}">${city["cname"]}</option>
+                        `
+                        )
+
+                    }
+                    
+                }
+                else {
+
+                    alert("no city added in this")
+
+                    }
+                
+            },
+            error: function () {
+
+                alert("Referesh the page and try again")
+            }
+
+
+
+        });
+    }
+
+
+</script>

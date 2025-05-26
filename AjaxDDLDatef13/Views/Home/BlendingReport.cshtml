@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "BlendingReport";
+}
+
+<h2>BlendingReport</h2>
+
+<script>
+    function demo() {
+        $.ajax({
+            url: '/Home/BlendingReport',
+            type: 'post',
+            data: obj,//{key:value}
+            processData: false,
+            contentType: false,
+            success: function (res) {
+
+                alert(res)
+            },
+            error: function () {
+
+                alert("error h")
+            },
+
+
+
+        });
+    }
+
+
+</script>
